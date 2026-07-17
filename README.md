@@ -1,4 +1,4 @@
-# ml-03-classification
+# ml-03-classification-hildebrand
 
 [![Workflow Guide](https://img.shields.io/badge/Pro--Guide-pro--analytics--02-green)](https://denisecase.github.io/pro-analytics-02/workflow-b-apply-example-project/)
 [![Python 3.14](https://img.shields.io/badge/python-3.14%2B-blue?logo=python)](./pyproject.toml)
@@ -83,9 +83,9 @@ open a machine terminal in your `Repos` folder:
 
 ```shell
 # Replace username with YOUR GitHub username.
-git clone https://github.com/username/ml-03-classification
+git clone https://github.com/Thilde02/ml-03-classification-hildebrand.git
 
-cd ml-03-classification
+cd ml-03-classification-hildebrand
 code .
 ```
 
