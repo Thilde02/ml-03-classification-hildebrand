@@ -1,7 +1,6 @@
 # Project Documentation
 
-This site provides project documentation.
-Use the documentation navigation to explore.
+This project demonstrates supervised machine learning using student academic and study-habit data. The project includes a technical modification to the original regression example and a custom classification project.
 
 ## How-To Guide
 
@@ -21,25 +20,63 @@ to get the example projects running on your machine.
 
 ## Phase 4. Technical Modification
 
-Describe your small technical modification to the example project.
+For Phase 4, I made a technical modification to the supervised machine learning example by adding a new chart that compares the model's actual test results with its predicted results.
 
-Include:
+The original project already trained a supervised regression model and created visualizations. I modified the project so that the make_plots() function receives the test values and prediction values:
 
-- What you changed
-- Why you chose that change
-- How you verified that it worked
-- What result, output, chart, metric, or behavior confirmed the change
+make_plots(
+    df_clean,
+    model,
+    y_test,
+    y_pred,
+)
 
-Compared with the example project,
-explain what is different and why the change matters.
+I then added a new visualization comparing the actual scores with the predicted scores. The chart also includes a reference line showing where the predicted score would exactly match the actual score.
 
-Was it easy, or surprisingly challenging and why do you think so?
+This modification required changes to the visualization function and to the main() function that calls it.
+
+I verified the change by running the application successfully through the terminal:
+
+uv run python -m mlstudio.app_hildebrand
+
+The program successfully trained the model, generated predictions, and created the additional actual-versus-predicted visualization.
+
+The modification was relatively easy overall, although I encountered an indentation error and a function argument error while making the change. I addressed these problems by carefully reading the error messages, correcting the indentation, and updating the make_plots() call so it passed all required arguments.
+
+The modification was useful because it provided another way to evaluate the model's performance visually. Instead of only looking at numerical metrics, I could compare the actual test scores with the model's predictions.
 
 ## Phase 5. Custom Project
 
-Describe your custom project and how you made your modeling decisions.
+For Phase 5, I applied the skills from the original supervised regression project to a new classification problem.
 
-Be specific about what changed from the example project.
+My custom project asks:
+
+Can a student's study habits and academic information be used to predict whether the student will pass or fail?
+
+The original project predicted a numeric student score. My custom project changes the target so the model predicts one of two categories: Pass or Fail.
+
+I created a separate custom application:
+
+src/mlstudio/app_phase5.py
+
+This allowed me to build the new project while keeping the working Phase 4 application available.
+
+Basis and Data
+
+I started with the student academic and study-habit data used by the example project.
+
+The dataset contains 10 student records and includes the following information:
+
+Hours studied
+Practice quizzes completed
+Attendance percentage
+Sleep hours
+Prior score
+Final score
+
+I kept the original dataset because it already provided useful examples of academic and study-related information that could reasonably be used for a classification problem.
+
+The dataset is small, so the results should be interpreted as a demonstration of the machine learning process rather than as a highly reliable real-world predictive system. A larger and more diverse dataset would be needed for a stronger real-world model.
 
 ### Basis and Data
 
@@ -54,52 +91,102 @@ Include:
 
 ### Modeling Approach
 
-Describe the problem type and modeling approach for this project.
+This is a supervised learning problem because the model is trained using data that includes known outcomes.
 
-Include:
+The original project was a regression problem because it predicted a continuous numeric score.
 
-- Is this supervised or unsupervised and how do you know
-- Is this classification, regression, clustering, recommendation, forecasting, or another type of ML task
-- What kind of target works well for this approach
-- Why your selected model or method is appropriate
+My custom project is a classification problem because it predicts one of two categories:
+
+0 = Fail
+1 = Pass
+
+I used a LogisticRegression model because logistic regression is designed for classification problems and can predict which category an observation belongs to.
+
+The model uses the student's study habits and academic information as input features and predicts whether the student passes or fails.
 
 ### Target
 
-Describe the example target variable.
+The original target variable was:
 
-Then describe your chosen target variable.
+score
 
-Explain how your target choice changes the modeling approach, interpretation, or evaluation.
+This represented the student's numeric score and was appropriate for regression.
+
+For my custom project, I created a new target variable:
+
+pass_fail
+
+I used the following rule:
+
+score >= 70 → Pass
+score < 70 → Fail
+
+The classification target is represented numerically:
+
+0 = Fail
+1 = Pass
+
+This changes the modeling approach from predicting a specific numeric score to predicting a category. As a result, classification metrics such as accuracy are more appropriate than regression metrics such as mean absolute error or R-squared.
 
 ### Features
 
-Describe the example features.
+I used the following features to predict the student's pass/fail result:
 
-Then describe the features you used to predict your target.
+hours_studied
+practice_quizzes
+attendance_pct
+sleep_hours
+prior_score
 
-Explain what you changed, added, removed, or kept and why.
+These features were kept from the original project because they represent study habits and academic information that could reasonably be related to a student's performance.
+
+The main change was not removing the original features but changing the target. Instead of directly predicting the numeric score, the model predicts the newly created pass_fail outcome.
 
 ### Evaluation and Results
 
-Describe how you evaluated your model.
+I evaluated the classification model using accuracy.
 
-Include:
+The model was trained using a training set and evaluated using test data. The predicted pass/fail results were compared with the actual pass/fail results.
 
-- The metric or evidence you used
-- The main result
-- Whether the result was useful, interesting, surprising, or disappointing
-- Any weakness, limitation, or next improvement
+The project also creates a confusion matrix visualization showing:
+
+Correctly predicted Pass results
+Correctly predicted Fail results
+Pass results incorrectly predicted as Fail
+Fail results incorrectly predicted as Pass
+
+The model produced a classification accuracy result when the application was run successfully.
+
+The result was useful because it demonstrated how the same underlying student data could be used for a different machine learning task. Instead of predicting a specific score, the model answered a simpler question: whether the student was likely to pass or fail.
+
+A major limitation is the very small dataset. With only a small number of observations, the model's accuracy may not generalize well to new students. A larger dataset would provide a stronger basis for evaluating the model.
+
+A possible next improvement would be to collect more student records and compare multiple classification models, such as logistic regression, decision trees, and random forests.
 
 ### Summary
 
-Summarize your custom project.
+For my custom Phase 5 project, I created a classification application that predicts whether a student will pass or fail based on study habits and academic information.
 
-Include:
+I implemented the project by:
 
-- How you implemented your custom model
-- What results you got
-- What you learned
-- How well you exercised the skills covered in this project
-- What kinds of real problems you could apply these skills to in the future
+Creating a new pass_fail target variable.
+Defining a score of 70 or higher as a Pass.
+Defining a score below 70 as a Fail.
+Using the existing student features as model inputs.
+Training a LogisticRegression classification model.
+Evaluating the model using accuracy.
+Creating a confusion matrix visualization.
+Running the custom application successfully.
 
-Display at least one image or screenshot showing your work.
+The project helped me understand the difference between regression and classification. The original project predicted a continuous numeric score, while my custom project predicted one of two categories.
+
+I also practiced modifying an existing working project, creating a new target variable, selecting an appropriate model, changing the evaluation metric, and creating a visualization that matched the new problem.
+
+These skills could be applied to many real-world problems, such as predicting whether a customer will renew a subscription, whether a transaction may be fraudulent, whether an application meets a qualification threshold, or whether a student is at risk of failing a course.
+
+### Evidence
+The project was successfully executed using:
+
+uv run python -m mlstudio.app_phase5
+
+The successful execution produced classification results and a confusion matrix visualization demonstrating the model's Pass/Fail predictions.
